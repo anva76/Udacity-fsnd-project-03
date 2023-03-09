@@ -3,10 +3,11 @@ from flask import request, _request_ctx_stack
 from functools import wraps
 from jose import jwt
 from urllib.request import urlopen
+from config import AuthConfig
 
-AUTH0_DOMAIN = 'dev-7un4dhfbx4hxdp18.us.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'UdacityCoffeeshop'
+AUTH0_DOMAIN = AuthConfig.AUTH0_DOMAIN
+ALGORITHMS = AuthConfig.ALGORITHMS
+API_AUDIENCE = AuthConfig.API_AUDIENCE
 
 
 # AuthError Exception
@@ -63,7 +64,7 @@ def check_permissions(requested_permission, payload):
         }, 401)
 
     token_permissions = payload['permissions']
-    print(token_permissions, requested_permission)
+    # print(token_permissions, requested_permission)
 
     if requested_permission not in token_permissions:
         raise AuthError({

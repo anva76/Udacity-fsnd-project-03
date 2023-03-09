@@ -3,6 +3,7 @@ import json
 from flask import Flask, request, jsonify, abort
 from sqlalchemy import exc
 from flask_cors import CORS
+from sqlalchemy import func as fn
 from database.models import db_drop_and_create_all, Drink, db
 from auth.auth import AuthError, requires_auth, get_token_from_auth_header
 
@@ -55,6 +56,26 @@ def get_drinks_detailed():
         'success': True,
         'drinks': drinks,
     })
+
+
+# Check if the drink title is unique
+# ___________________________________________________________
+def confirm_drink_title_unique(new_title, current_title=None, patched=False):
+    if patched:
+        drink = Drink.query.filter(
+                fn.lower(Drink.title) == fn.lower(new_title),
+                fn.lower(Drink.title) != fn.lower(current_title)
+            ).one_or_none()
+        if drink:
+            return False
+    else:
+        drink = Drink.query.filter(
+                fn.lower(Drink.title) == fn.lower(new_title)
+             ).one_or_none()
+        if drink:
+            return False
+
+    return True
 
 
 # Validate a new or patched drink
@@ -115,6 +136,9 @@ def post_drinks():
     if result is None:
         abort(400)
 
+    if not confirm_drink_title_unique(title):
+        return error_response('This drink title already exists.', 400)
+
     drink = Drink()
     drink.title = title
     drink.recipe = json.dumps(recipe)
@@ -151,6 +175,9 @@ def patch_drinks(drink_id):
     result, title, recipe = validate_drink(request, patched=True)
     if result is None:
         abort(400)
+
+    if not confirm_drink_title_unique(title, drink.title, True):
+        return error_response('This drink already exists.', 400)
 
     if title:
         drink.title = title
