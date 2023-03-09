@@ -1,87 +1,40 @@
 # Coffee Shop Backend
 
-## Getting Started
+## Setting up the Backend
 
-### Installing Dependencies
+### Prerequisites
 
-#### Python 3.7
+* **Python 3.7 or higher** - Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
 
-Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
+* **Virtual Environment** - It is recommended to use a python virtual environment for running the backend Flask code. Instructions for setting up a virual environment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 
-#### Virtual Environment
+### Installing PIP Dependencies
 
-We recommend working within a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organized. Instructions for setting up a virtual environment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+In your terminal, navigate to the `/backend` directory and create a virtual environment by executing:
 
-#### PIP Dependencies
+```bash
+virtualenv venv
+```
+Then activate the newly created environment:
 
-Once you have your virtual environment setup and running, install dependencies by naviging to the `/backend` directory and running:
+```bash
+source venv/bin/activate
+```
+Install PIP dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
-
-This will install all of the required packages we selected within the `requirements.txt` file.
-
-##### Key Dependencies
-
-- [Flask](http://flask.pocoo.org/) is a lightweight backend microservices framework. Flask is required to handle requests and responses.
-
-- [SQLAlchemy](https://www.sqlalchemy.org/) and [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) are libraries to handle the lightweight sqlite database. Since we want you to focus on auth, we handle the heavy lift for you in `./src/database/models.py`. We recommend skimming this code first so you know how to interface with the Drink model.
-
-- [jose](https://python-jose.readthedocs.io/en/latest/) JavaScript Object Signing and Encryption for JWTs. Useful for encoding, decoding, and verifying JWTS.
-
 ## Running the server
 
-From within the `./src` directory first ensure you are working using your created virtual environment.
+Before running the backend server, please ensure that you are in the `/backend` folder and your virtual environment is activated as described above.
 
-Each time you open a new terminal session, run:
-
-```bash
-export FLASK_APP=api.py;
-```
-
-To run the server, execute:
+To run the backend Flask server, execute:
 
 ```bash
-flask run --reload
+python app.py
 ```
+## Running tests in Postman
 
-The `--reload` flag will detect file changes and restart the server automatically.
+Before running tests in Postman, please restart the backend server to recreate tables and insert some example data.
 
-## Tasks
-
-### Setup Auth0
-
-1. Create a new Auth0 Account
-2. Select a unique tenant domain
-3. Create a new, single page web application
-4. Create a new API
-   - in API Settings:
-     - Enable RBAC
-     - Enable Add Permissions in the Access Token
-5. Create new API permissions:
-   - `get:drinks`
-   - `get:drinks-detail`
-   - `post:drinks`
-   - `patch:drinks`
-   - `delete:drinks`
-6. Create new roles for:
-   - Barista
-     - can `get:drinks-detail`
-     - can `get:drinks`
-   - Manager
-     - can perform all actions
-7. Test your endpoints with [Postman](https://getpostman.com).
-   - Register 2 users - assign the Barista role to one and Manager role to the other.
-   - Sign into each account and make note of the JWT.
-   - Import the postman collection `./starter_code/backend/udacity-fsnd-udaspicelatte.postman_collection.json`
-   - Right-clicking the collection folder for barista and manager, navigate to the authorization tab, and including the JWT in the token field (you should have noted these JWTs).
-   - Run the collection and correct any errors.
-   - Export the collection overwriting the one we've included so that we have your proper JWTs during review!
-
-### Implement The Server
-
-There are `@TODO` comments throughout the `./backend/src`. We recommend tackling the files in order and from top to bottom:
-
-1. `./src/auth/auth.py`
-2. `./src/api.py`

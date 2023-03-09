@@ -52,29 +52,29 @@ def get_token_from_auth_header():
     return token
 
 
-# Check the scope of permissions 
+# Check the scope of permissions
 # Note: This code is based on examples provided by Auth0.com
 # ----------------------------------------------------------------------
 def check_permissions(requested_permission, payload):
-    if not 'permissions' in payload:
+    if 'permissions' not in payload:
         raise AuthError({
             'code': 'invalid_payload',
             'description': 'Invalid payload.'
-        }, 401)        
-    
+        }, 401)
+
     token_permissions = payload['permissions']
     print(token_permissions, requested_permission)
 
-    if not requested_permission in token_permissions:
+    if requested_permission not in token_permissions:
         raise AuthError({
             'code': 'access_denied',
             'description': 'Access denied.'
-        }, 403)         
+        }, 403)
 
     return True
 
 
-# Validate and decode JWT token 
+# Validate and decode JWT token
 # Note: This code is based on examples provided by Auth0.com
 # ----------------------------------------------------------------------
 def validate_jwt_token(token):
@@ -125,7 +125,7 @@ def validate_jwt_token(token):
                 'code': 'invalid_header',
                 'description': 'Unable to parse authentication token.'
             }, 400)
-        
+
     raise AuthError({
                 'code': 'invalid_header',
                 'description': 'Unable to find the appropriate key.'

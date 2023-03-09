@@ -12,4 +12,4 @@ class DevConfig:
     SQLALCHEMY_DATABASE_URI = db_uri
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEVELOPMENT = True
-    DEBUG = True    
+    DEBUG = True

@@ -14,20 +14,13 @@ def db_drop_and_create_all():
     add_some_example_data()
 
 
-# Create tables
-# -----------------------------------------------------------------------
-def db_create_all():
-    db.create_all()
-    add_some_example_data()    
-
-
 # Add some example data
 # -----------------------------------------------------------------------
 def add_some_example_data():
     drinks = [
      {
        "title": "Soda Water",
-       "recipe":[{"name": "Carbonated water", "color": "cyan", "parts": 1}]
+       "recipe": [{"name": "Carbonated water", "color": "cyan", "parts": 1}]
      },
      {
        "title": "Summer Coffee",
@@ -35,20 +28,20 @@ def add_some_example_data():
         {"name": "Cream", "color": "#F9F5E7", "parts": 6},
         {"name": "Evaporated milk", "color": "#F9DBBB", "parts": 2},
         {"name": "Espresso", "color": "#A75D5D", "parts": 2}
-      ]
+        ]
      },
      {
        "title": "Fruit Cola",
        "recipe": [
         {"name": "Multifruit juice", "color": "#FFB84C", "parts": 1},
         {"name": "Cola", "color": "#804674", "parts": 1}
-      ]
-     }     
+        ]
+     }
     ]
 
     for d in drinks:
         drink = Drink(
-             title=d['title'], 
+             title=d['title'],
              recipe=json.dumps(d['recipe'])
             )
         drink.insert()
@@ -58,13 +51,17 @@ class Drink(db.Model):
     id = Column(Integer().with_variant(Integer, "sqlite"), primary_key=True)
     title = Column(String(80), unique=True)
 
-    # the ingredients blob - this stores a lazy json blob
-    # the required datatype is [{'color': string, 'name':string, 'parts':number}]
+    # json string
+    # example: "[{'color': string, 'name':string, 'parts':number}]"
     recipe = Column(String(), nullable=False)
 
     def short(self):
         print(json.loads(self.recipe))
-        short_recipe = [{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
+        short_recipe = [
+                         {'color': r['color'], 'parts': r['parts']}
+                         for r in json.loads(self.recipe)
+                        ]
+
         return {
             'id': self.id,
             'title': self.title,

@@ -3,7 +3,7 @@ import json
 from flask import Flask, request, jsonify, abort
 from sqlalchemy import exc
 from flask_cors import CORS
-from database.models import db_create_all, Drink, db
+from database.models import db_drop_and_create_all, Drink, db
 from auth.auth import AuthError, requires_auth, get_token_from_auth_header
 
 app = Flask(__name__)
@@ -13,7 +13,8 @@ CORS(app)
 def config_and_init_db():
     app.config.from_object('config.DevConfig')
     db.init_app(app)
-    #db_create_all()
+    with app.app_context():
+        db_drop_and_create_all()
 
 
 # Error response with a specific message if necessary
@@ -67,41 +68,42 @@ def validate_drink(request, patched=False):
 
     if not all([title, recipe]) and not patched:
         return None, None, None
-    
+
     if title:
         title = title.strip()
         if len(title) == 0:
-            return None, None, None            
+            return None, None, None
 
     if recipe:
         if not all([isinstance(recipe, list), len(recipe)]):
-            return None, None, None        
+            return None, None, None
 
         # check the ingredients
         for ingred in recipe:
             if not isinstance(ingred, dict):
                 return None, None, None
-            
+
             if not all([
-                        'parts' in ingred, 
-                        'color' in ingred, 
+                        'parts' in ingred,
+                        'color' in ingred,
                         'name' in ingred
                         ]):
-                return None, None, None     
+                return None, None, None
 
             ingred['color'] = ingred['color'].strip()
             ingred['name'] = ingred['name'].strip()
-            
+
             if not all([len(ingred['color']), len(ingred['name'])]):
-                return None, None, None       
+                return None, None, None
 
             # assert 'parts' is an integer
-            try: 
+            try:
                 ingred['parts'] = int(ingred['parts'])
             except ValueError:
                 return None, None, None
-    
+
     return True, title, recipe
+
 
 # Add a new drink
 # -----------------------------------------------------------
@@ -132,7 +134,7 @@ def post_drinks():
     else:
         return jsonify({
           'success': True,
-          'drink': drink.long()
+          'drinks': [drink.long()]
         })
 
 
@@ -171,7 +173,7 @@ def patch_drinks(drink_id):
     else:
         return jsonify({
           'success': True,
-          'drink': drink.long()
+          'drinks': [drink.long()]
         })
 
 
@@ -199,7 +201,7 @@ def delete_drinks(drink_id):
         return jsonify({
             'success': True,
             'delete': drink_id
-        })    
+        })
 
 
 # Error Handling

@@ -1,35 +1,23 @@
 # Coffee Shop Full Stack
 
-## Full Stack Nano - IAM Final Project
+## Project overview
 
-Udacity has decided to open a new digitally enabled cafe for students to order drinks, socialize, and study hard. But they need help setting up their menu experience.
+This project was implemented for the Udacity FSND program. The application realizes a coffee shop menu application that allows public users to view drinks while baristas and managers can additionally view detailed recipes or make changes according to their roles in the system.
 
-You have been called on to demonstrate your newly learned skills to create a full stack drink menu application. The application must:
+The frontend part of this application was already pre-built using the Ionic framework. Basically, it is an almost complete coffee shop menu mobile application. The main purpose of the project is to implement a secure Flask-based backend to serve the requests of the frontend. Consequently, both parts are secured by a third party authentication provider - Auth0.com.
 
-1. Display graphics representing the ratios of ingredients in each drink.
-2. Allow public users to view drink names and graphics.
-3. Allow the shop baristas to see the recipe information.
-4. Allow the shop managers to create new drinks and edit existing drinks.
+### Authentication workflow
 
-## Tasks
+In simple terms, the frontend sends an authorization request to Auth0 servers. Auth0 validates this request, provides a login form to authenticate the end user, and sends back an access token upon success. This access token is then used by the frontend to access the Flask-based backend API. The backend validates the token and checks the available permissions according to Auth0 predefined procedures.
 
-There are `@TODO` comments throughout the project. We recommend tackling the sections in order. Start by reading the READMEs in:
+## Installation
 
-1. [`./backend/`](./backend/README.md)
-2. [`./frontend/`](./frontend/README.md)
+* Git-clone this project (or download and extract a zip file) into a separate folder.
 
-## About the Stack
+* Navigate to the `/backend` folder to install dependencies and launch the backend server.
+The details can be found in the readme file inside the folder.
 
-We started the full stack application for you. It is designed with some key functional areas:
+* Navigate to the `/frontend` folder to install dependencies and launch the Ionic
+development server. The details can be found in the readme file inside the folder.
 
-### Backend
-
-The `./backend` directory contains a partially completed Flask server with a pre-written SQLAlchemy module to simplify your data needs. You will need to complete the required endpoints, configure, and integrate Auth0 for authentication.
-
-[View the README.md within ./backend for more details.](./backend/README.md)
-
-### Frontend
-
-The `./frontend` directory contains a complete Ionic frontend to consume the data from the Flask server. You will only need to update the environment variables found within (./frontend/src/environment/environment.ts) to reflect the Auth0 configuration details set up for the backend app.
-
-[View the README.md within ./frontend for more details.](./frontend/README.md)
+* Open http://localhost:8100/ in your browser to run the Coffee shop app.
