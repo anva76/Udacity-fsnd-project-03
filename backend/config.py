@@ -18,6 +18,6 @@ class DevConfig:
 # These parameters are not hidden in an env file
 # so that a reviewer can verify the project
 class AuthConfig:
-    AUTH0_DOMAIN = 'dev-7un4dhfbx4hxdp18.us.auth0.com'
+    AUTH0_DOMAIN = ''
     ALGORITHMS = ['RS256']
-    API_AUDIENCE = 'UdacityCoffeeshop'
+    API_AUDIENCE = ''
