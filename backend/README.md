@@ -27,7 +27,7 @@ pip install -r requirements.txt
 ```
 ## Running the server
 
-Before running the backend server, please ensure that you are in the `/backend` folder and your virtual environment is activated as described above. Also, please specify the necessary parameters in the config.py.
+Before running the backend server, please ensure that you are in the `/backend` folder and your virtual environment is activated as described above. Also, please specify the necessary parameters in config.py.
 
 To run the backend Flask server, execute:
 
